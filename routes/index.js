@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+
+const clickRoutes = require('./v1/click.routes');
 const productRoutes = require('./v1/product.routes');
-const serviceRoutes = require('./v1/service.routes');
 
 router.use('/products', productRoutes);
-router.use('/services', serviceRoutes);
+router.use('/clicks', clickRoutes);
 
 module.exports = router;
