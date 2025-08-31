@@ -74,6 +74,10 @@ router.get('/:id', productController.getById);
  *                 type: string
  *               destacado:
  *                 type: boolean
+ *               caracteristicas:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       201:
  *         description: Producto creado
@@ -118,6 +122,10 @@ router.post('/', auth, productController.create);
  *                 type: string
  *               destacado:
  *                 type: boolean
+ *               caracteristicas:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *     responses:
  *       200:
  *         description: Producto actualizado

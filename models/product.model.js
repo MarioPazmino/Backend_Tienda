@@ -8,6 +8,7 @@ const ProductSchema = new mongoose.Schema({
     categoria: { type: String, required: true },
     imagen: { type: String }, // URL o nombre de archivo
     destacado: { type: Boolean, default: false },
+    caracteristicas: [{ type: String }],
     createdAt: { type: Date, default: Date.now }
 });
 
