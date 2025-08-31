@@ -70,7 +70,9 @@ router.get('/:id', productController.getById);
  *               stock:
  *                 type: number
  *               categoria:
- *                 type: string
+ *                 type: array
+ *                 items:
+ *                   type: string
  *               imagen:
  *                 type: string
  *               destacado:
@@ -91,7 +93,8 @@ router.post(
 		[
 			body('name').notEmpty().withMessage('El nombre es requerido'),
 			body('price').isNumeric().withMessage('El precio debe ser un número'),
-			body('categoria').notEmpty().withMessage('La categoría es requerida'),
+			body('categoria').isArray({ min: 1 }).withMessage('La categoría es requerida y debe ser un array de al menos un elemento'),
+			body('categoria.*').isString().withMessage('Cada categoría debe ser un string'),
 			body('imagen').optional().isURL().withMessage('La imagen debe ser una URL válida'),
 			body('caracteristicas').optional().isArray().withMessage('Las características deben ser un array de strings')
 		],
@@ -136,7 +139,9 @@ router.post(
  *               stock:
  *                 type: number
  *               categoria:
- *                 type: string
+ *                 type: array
+ *                 items:
+ *                   type: string
  *               imagen:
  *                 type: string
  *               destacado:
@@ -159,7 +164,8 @@ router.put(
 		[
 			body('name').optional().notEmpty().withMessage('El nombre no puede estar vacío'),
 			body('price').optional().isNumeric().withMessage('El precio debe ser un número'),
-			body('categoria').optional().notEmpty().withMessage('La categoría no puede estar vacía'),
+			body('categoria').optional().isArray({ min: 1 }).withMessage('La categoría debe ser un array de al menos un elemento'),
+			body('categoria.*').optional().isString().withMessage('Cada categoría debe ser un string'),
 			body('imagen').optional().isURL().withMessage('La imagen debe ser una URL válida'),
 			body('caracteristicas').optional().isArray().withMessage('Las características deben ser un array de strings')
 		],
