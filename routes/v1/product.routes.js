@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
+const { body, validationResult } = require('express-validator');
 const productController = require('../../controllers/product.controller');
 const auth = require('../../middlewares/auth.middleware');
 
@@ -84,7 +85,24 @@ router.get('/:id', productController.getById);
  *       400:
  *         description: Error de validación
  */
-router.post('/', auth, productController.create);
+router.post(
+	'/',
+	auth,
+	[
+		body('name').notEmpty().withMessage('El nombre es requerido'),
+		body('price').isNumeric().withMessage('El precio debe ser un número'),
+		body('categoria').notEmpty().withMessage('La categoría es requerida'),
+		body('caracteristicas').optional().isArray().withMessage('Las características deben ser un array de strings')
+	],
+	(req, res, next) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
+		next();
+	},
+	productController.create
+);
 
 /**
  * @swagger
@@ -134,7 +152,24 @@ router.post('/', auth, productController.create);
  *       404:
  *         description: Producto no encontrado
  */
-router.put('/:id', auth, productController.update);
+router.put(
+	'/:id',
+	auth,
+	[
+		body('name').optional().notEmpty().withMessage('El nombre no puede estar vacío'),
+		body('price').optional().isNumeric().withMessage('El precio debe ser un número'),
+		body('categoria').optional().notEmpty().withMessage('La categoría no puede estar vacía'),
+		body('caracteristicas').optional().isArray().withMessage('Las características deben ser un array de strings')
+	],
+	(req, res, next) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
+		next();
+	},
+	productController.update
+);
 
 /**
  * @swagger

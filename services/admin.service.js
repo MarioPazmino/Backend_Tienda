@@ -14,6 +14,10 @@ class AdminService {
     async findById(id) {
         return adminRepository.findById(id);
     }
+
+    async changePassword(id, newPassword) {
+        return adminRepository.updatePassword(id, newPassword);
+    }
 }
 
 module.exports = new AdminService();

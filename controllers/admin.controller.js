@@ -1,3 +1,16 @@
+exports.changePassword = async (req, res) => {
+    try {
+        const adminId = req.admin.id;
+        const { newPassword } = req.body;
+        if (!newPassword || newPassword.length < 6) {
+            return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 6 caracteres.' });
+        }
+        await adminService.changePassword(adminId, newPassword);
+        res.json({ message: 'Contraseña actualizada correctamente.' });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};
 const adminService = require('../services/admin.service');
 const jwt = require('jsonwebtoken');
 

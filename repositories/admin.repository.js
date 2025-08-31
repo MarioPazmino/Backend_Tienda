@@ -10,6 +10,14 @@ class AdminRepository {
     async findById(id) {
         return Admin.findById(id);
     }
+
+    async updatePassword(id, newPassword) {
+        const admin = await Admin.findById(id);
+        if (!admin) return null;
+        admin.password = newPassword;
+        await admin.save();
+        return admin;
+    }
 }
 
 module.exports = new AdminRepository();
