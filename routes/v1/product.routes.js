@@ -88,12 +88,13 @@ router.get('/:id', productController.getById);
 router.post(
 	'/',
 	auth,
-	[
-		body('name').notEmpty().withMessage('El nombre es requerido'),
-		body('price').isNumeric().withMessage('El precio debe ser un número'),
-		body('categoria').notEmpty().withMessage('La categoría es requerida'),
-		body('caracteristicas').optional().isArray().withMessage('Las características deben ser un array de strings')
-	],
+		[
+			body('name').notEmpty().withMessage('El nombre es requerido'),
+			body('price').isNumeric().withMessage('El precio debe ser un número'),
+			body('categoria').notEmpty().withMessage('La categoría es requerida'),
+			body('imagen').optional().isURL().withMessage('La imagen debe ser una URL válida'),
+			body('caracteristicas').optional().isArray().withMessage('Las características deben ser un array de strings')
+		],
 	(req, res, next) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
@@ -155,12 +156,13 @@ router.post(
 router.put(
 	'/:id',
 	auth,
-	[
-		body('name').optional().notEmpty().withMessage('El nombre no puede estar vacío'),
-		body('price').optional().isNumeric().withMessage('El precio debe ser un número'),
-		body('categoria').optional().notEmpty().withMessage('La categoría no puede estar vacía'),
-		body('caracteristicas').optional().isArray().withMessage('Las características deben ser un array de strings')
-	],
+		[
+			body('name').optional().notEmpty().withMessage('El nombre no puede estar vacío'),
+			body('price').optional().isNumeric().withMessage('El precio debe ser un número'),
+			body('categoria').optional().notEmpty().withMessage('La categoría no puede estar vacía'),
+			body('imagen').optional().isURL().withMessage('La imagen debe ser una URL válida'),
+			body('caracteristicas').optional().isArray().withMessage('Las características deben ser un array de strings')
+		],
 	(req, res, next) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {

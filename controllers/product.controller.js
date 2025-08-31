@@ -2,8 +2,8 @@ const productService = require('../services/product.service');
 
 exports.getAll = async (req, res) => {
     try {
-        const products = await productService.getAllProducts();
-        res.json(products);
+        const result = await productService.getAllProducts(req.query);
+        res.json(result);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
