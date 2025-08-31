@@ -11,7 +11,6 @@ router.get('/', clickController.getStats);
 // Estadísticas por producto
 router.get('/by-product', clickController.countByProduct);
 
-// Estadísticas por servicio
-router.get('/by-service', clickController.countByService);
+
 
 module.exports = router;
