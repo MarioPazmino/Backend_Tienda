@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
+const commentController = require('../../controllers/comment.controller');
 const commentStatsController = require('../../controllers/comment.stats.controller');
 /**
  * @swagger

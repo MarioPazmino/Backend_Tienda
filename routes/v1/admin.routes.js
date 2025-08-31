@@ -1,3 +1,10 @@
+
+const express = require('express');
+const router = express.Router();
+const adminController = require('../../controllers/admin.controller');
+const { body, validationResult } = require('express-validator');
+const auth = require('../../middlewares/auth.middleware');
+
 /**
  * @swagger
  * /admin/change-password:
@@ -22,7 +29,6 @@
  *       400:
  *         description: Error de validación
  */
-router.post('/change-password', auth, adminController.changePassword);
 router.post(
 	'/change-password',
 	auth,
@@ -40,13 +46,6 @@ router.post(
 	},
 	adminController.changePassword
 );
-const express = require('express');
-const router = express.Router();
-const adminController = require('../../controllers/admin.controller');
-
-
-const { body, validationResult } = require('express-validator');
-const auth = require('../../middlewares/auth.middleware');
 
 
 /**
