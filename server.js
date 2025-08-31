@@ -25,6 +25,9 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 const morgan = require('morgan');
+const helmet = require('helmet');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
 const logger = require('./config/logger');
 const apiRoutes = require('./routes');
 
@@ -33,6 +36,17 @@ const PORT = process.env.PORT || 3000;
 
 
 // Middlewares
+app.use(helmet());
+app.use(cors({
+    origin: ['http://localhost:5173'], // Cambia esto por el dominio de tu frontend
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100, // 100 peticiones por IP
+    message: 'Demasiadas peticiones, intenta más tarde.'
+}));
 app.use(bodyParser.json());
 app.use(morgan('combined', { stream: { write: msg => logger.info(msg.trim()) } }));
 
