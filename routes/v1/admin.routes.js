@@ -1,3 +1,12 @@
+
+const express = require('express');
+const router = express.Router();
+const adminController = require('../../controllers/admin.controller');
+const { body, validationResult } = require('express-validator');
+const auth = require('../../middlewares/auth.middleware');
+const adminActivo = require('../../middlewares/adminActivo.middleware');
+const superadmin = require('../../middlewares/superadmin.middleware');
+
 /**
  * @swagger
  * /admin/{id}/fecha-expiracion:
@@ -34,15 +43,6 @@
  *         description: Administrador no encontrado
  */
 router.patch('/:id/fecha-expiracion', auth, superadmin, adminController.setFechaExpiracion);
-
-
-const express = require('express');
-const router = express.Router();
-const adminController = require('../../controllers/admin.controller');
-const { body, validationResult } = require('express-validator');
-const auth = require('../../middlewares/auth.middleware');
-const adminActivo = require('../../middlewares/adminActivo.middleware');
-const superadmin = require('../../middlewares/superadmin.middleware');
 
 
 /**
