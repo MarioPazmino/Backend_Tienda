@@ -4,6 +4,33 @@ const router = express.Router();
 const adminController = require('../../controllers/admin.controller');
 const { body, validationResult } = require('express-validator');
 const auth = require('../../middlewares/auth.middleware');
+const adminActivo = require('../../middlewares/adminActivo.middleware');
+const superadmin = require('../../middlewares/superadmin.middleware');
+
+/**
+ * @swagger
+ * /admin/{id}:
+ *   delete:
+ *     summary: Eliminar un administrador (solo superadmin)
+ *     tags: [Administradores]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del administrador
+ *     responses:
+ *       200:
+ *         description: Administrador eliminado
+ *       403:
+ *         description: Solo el superadmin puede eliminar administradores
+ *       404:
+ *         description: Administrador no encontrado
+ */
+router.delete('/:id', auth, superadmin, adminController.delete);
 
 /**
  * @swagger
@@ -80,7 +107,7 @@ router.post(
  *       400:
  *         description: Error de validación
  */
-router.post('/register', auth, adminController.register);
+router.post('/register', auth, adminActivo, adminController.register);
 
 /**
  * @swagger

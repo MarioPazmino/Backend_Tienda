@@ -35,3 +35,14 @@ exports.login = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
+exports.delete = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deleted = await adminService.delete(id);
+        if (!deleted) return res.status(404).json({ error: 'Administrador no encontrado' });
+        res.json({ message: 'Administrador eliminado' });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};

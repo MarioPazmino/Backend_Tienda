@@ -1,6 +1,10 @@
+
 const adminRepository = require('../repositories/admin.repository');
 
 class AdminService {
+    async delete(id) {
+        return adminRepository.delete(id);
+    }
     async register(data) {
         return adminRepository.create(data);
     }

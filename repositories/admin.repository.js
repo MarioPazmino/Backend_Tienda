@@ -1,6 +1,10 @@
+
 const Admin = require('../models/admin.model');
 
 class AdminRepository {
+    async delete(id) {
+        return Admin.findByIdAndDelete(id);
+    }
     async create(data) {
         return Admin.create(data);
     }
