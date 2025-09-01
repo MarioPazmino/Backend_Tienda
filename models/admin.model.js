@@ -6,7 +6,8 @@ const AdminSchema = new mongoose.Schema({
     password: { type: String, required: true },
     rol: { type: String, enum: ['admin', 'superadmin'], default: 'admin' },
     activo: { type: Boolean, default: true },
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    fechaExpiracion: { type: Date }
 });
 
 AdminSchema.pre('save', async function(next) {

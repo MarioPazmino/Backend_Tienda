@@ -61,3 +61,18 @@ exports.setActive = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
+exports.setFechaExpiracion = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { fechaExpiracion } = req.body;
+        if (!fechaExpiracion) {
+            return res.status(400).json({ error: 'La fecha de expiración es requerida.' });
+        }
+        const updated = await adminService.setFechaExpiracion(id, fechaExpiracion);
+        if (!updated) return res.status(404).json({ error: 'Administrador no encontrado' });
+        res.json({ message: 'Fecha de expiración actualizada', fechaExpiracion: updated.fechaExpiracion });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};

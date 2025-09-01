@@ -1,3 +1,39 @@
+/**
+ * @swagger
+ * /admin/{id}/fecha-expiracion:
+ *   patch:
+ *     summary: Actualizar la fecha de expiración de un administrador (solo superadmin)
+ *     tags: [Administradores]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del administrador
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fechaExpiracion:
+ *                 type: string
+ *                 format: date-time
+ *     responses:
+ *       200:
+ *         description: Fecha de expiración actualizada
+ *       400:
+ *         description: Error de validación
+ *       403:
+ *         description: Solo el superadmin puede cambiar la fecha
+ *       404:
+ *         description: Administrador no encontrado
+ */
+router.patch('/:id/fecha-expiracion', auth, superadmin, adminController.setFechaExpiracion);
 
 
 const express = require('express');

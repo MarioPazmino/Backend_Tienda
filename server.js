@@ -30,6 +30,8 @@ const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const logger = require('./config/logger');
 const apiRoutes = require('./routes');
+const cron = require('node-cron');
+const Admin = require('./models/admin.model');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -71,4 +73,25 @@ connectDB().then(() => {
     app.listen(PORT, () => {
         console.log(`Servidor corriendo en puerto ${PORT}`);
     });
+});
+
+// Tarea automática diaria para desactivar admins vencidos
+cron.schedule('0 2 * * *', async () => {
+  try {
+    await connectDB();
+    const hoy = new Date();
+    const result = await Admin.updateMany(
+      {
+        rol: 'admin',
+        activo: true,
+        fechaExpiracion: { $lte: hoy }
+      },
+      { $set: { activo: false } }
+    );
+    if (result.modifiedCount > 0) {
+      logger.info(`Admins desactivados por vencimiento: ${result.modifiedCount}`);
+    }
+  } catch (err) {
+    logger.error('Error en tarea cron de expiración de admins: ' + err.message);
+  }
 });

@@ -2,6 +2,9 @@
 const adminRepository = require('../repositories/admin.repository');
 
 class AdminService {
+    async setFechaExpiracion(id, fechaExpiracion) {
+        return adminRepository.setFechaExpiracion(id, fechaExpiracion);
+    }
     async setActive(id, activo) {
         return adminRepository.setActive(id, activo);
     }

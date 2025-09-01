@@ -10,5 +10,14 @@ module.exports = async (req, res, next) => {
   if (!admin || !admin.activo) {
     return res.status(403).json({ error: 'Tu cuenta está deshabilitada. Contacta al superadmin.' });
   }
+  // Verificar fecha de expiración
+  if (admin.fechaExpiracion && new Date(admin.fechaExpiracion) < new Date()) {
+    // Desactivar automáticamente si expiró
+    if (admin.activo) {
+      admin.activo = false;
+      await admin.save();
+    }
+    return res.status(403).json({ error: 'Tu licencia ha expirado. Contacta al superadmin para renovarla.' });
+  }
   next();
 };

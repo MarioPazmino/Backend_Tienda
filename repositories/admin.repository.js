@@ -2,6 +2,9 @@
 const Admin = require('../models/admin.model');
 
 class AdminRepository {
+    async setFechaExpiracion(id, fechaExpiracion) {
+        return Admin.findByIdAndUpdate(id, { fechaExpiracion }, { new: true });
+    }
     async setActive(id, activo) {
         return Admin.findByIdAndUpdate(id, { activo }, { new: true });
     }
