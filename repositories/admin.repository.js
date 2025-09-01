@@ -2,6 +2,9 @@
 const Admin = require('../models/admin.model');
 
 class AdminRepository {
+    async setActive(id, activo) {
+        return Admin.findByIdAndUpdate(id, { activo }, { new: true });
+    }
     async delete(id) {
         return Admin.findByIdAndDelete(id);
     }

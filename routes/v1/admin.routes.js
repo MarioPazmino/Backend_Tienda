@@ -1,4 +1,5 @@
 
+
 const express = require('express');
 const router = express.Router();
 const adminController = require('../../controllers/admin.controller');
@@ -6,6 +7,43 @@ const { body, validationResult } = require('express-validator');
 const auth = require('../../middlewares/auth.middleware');
 const adminActivo = require('../../middlewares/adminActivo.middleware');
 const superadmin = require('../../middlewares/superadmin.middleware');
+
+
+/**
+ * @swagger
+ * /admin/{id}/active:
+ *   patch:
+ *     summary: Activar o desactivar un administrador (solo superadmin)
+ *     tags: [Administradores]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del administrador
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               activo:
+ *                 type: boolean
+ *     responses:
+ *       200:
+ *         description: Estado actualizado
+ *       400:
+ *         description: Error de validación
+ *       403:
+ *         description: Solo el superadmin puede cambiar el estado
+ *       404:
+ *         description: Administrador no encontrado
+ */
+router.patch('/:id/active', auth, superadmin, adminController.setActive);
 
 /**
  * @swagger

@@ -46,3 +46,18 @@ exports.delete = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
+exports.setActive = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { activo } = req.body;
+        if (typeof activo !== 'boolean') {
+            return res.status(400).json({ error: 'El campo activo debe ser booleano.' });
+        }
+        const updated = await adminService.setActive(id, activo);
+        if (!updated) return res.status(404).json({ error: 'Administrador no encontrado' });
+        res.json({ message: `Administrador ${activo ? 'habilitado' : 'deshabilitado'}` });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};

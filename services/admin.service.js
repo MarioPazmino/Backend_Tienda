@@ -2,6 +2,9 @@
 const adminRepository = require('../repositories/admin.repository');
 
 class AdminService {
+    async setActive(id, activo) {
+        return adminRepository.setActive(id, activo);
+    }
     async delete(id) {
         return adminRepository.delete(id);
     }
